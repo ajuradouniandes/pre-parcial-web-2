@@ -1,9 +1,18 @@
 import { Module } from '@nestjs/common';
-import { TravelplansService } from './travelplans.service';
-import { TravelplansController } from './travelplans.controller';
+import { MongooseModule } from '@nestjs/mongoose';
+import { TravelPlan, TravelPlanSchema } from './schemas/travelplan.schema';
+import { TravelPlansService } from './travelplans.service';
+import { TravelPlansController } from './travelplans.controller';
+import { CountriesModule } from '../countries/countries.module';
+import { UsersModule } from '../users/users.module';
 
 @Module({
-  controllers: [TravelplansController],
-  providers: [TravelplansService],
+    imports: [
+        MongooseModule.forFeature([{ name: TravelPlan.name, schema: TravelPlanSchema }]),
+        CountriesModule,
+        UsersModule, // agregar
+    ],
+    controllers: [TravelPlansController],
+    providers: [TravelPlansService],
 })
-export class TravelplansModule {}
+export class TravelPlansModule {}

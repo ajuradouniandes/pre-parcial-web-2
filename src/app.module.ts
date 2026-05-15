@@ -1,17 +1,19 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { CountriesModule } from './countries/countries.module';
+// app.module.ts
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { TravelplansModule } from './travelplans/travelplans.module';
+import { TravelPlansModule } from './travelplans/travelplans.module';
+import { UsersModule } from './users/users.module';
+import { AuditMiddleware } from './middleware/audit.middleware';
 
 @Module({
-  imports: [
-    CountriesModule,
-    MongooseModule.forRoot('mongodb://localhost:27017/pre-parcial'),
-    TravelplansModule,
-  ],
-  controllers: [AppController],
-  providers: [AppService],
+    imports: [
+        MongooseModule.forRoot('mongodb://localhost:27017/traveldb'),
+        TravelPlansModule,
+        UsersModule,
+    ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(AuditMiddleware).forRoutes('travel-plans', 'users');
+    }
+}

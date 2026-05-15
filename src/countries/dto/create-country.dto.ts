@@ -1,4 +1,3 @@
-// dto/create-country.dto.ts
 import { IsString, IsNotEmpty, IsNumber, IsUrl, Length } from 'class-validator';
 
 export class CreateCountryDto {

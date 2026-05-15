@@ -1,5 +1,5 @@
-// dto/create-travel-plan.dto.ts
-import { IsString, IsNotEmpty, IsDateString, Length, Validate, ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
+
+import { IsString, IsNotEmpty, IsDateString, Length, Validate, ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface, IsMongoId } from 'class-validator';
 
 @ValidatorConstraint({ name: 'isAfterStartDate', async: false })
 class IsAfterStartDateConstraint implements ValidatorConstraintInterface {
@@ -31,4 +31,8 @@ export class CreateTravelPlanDto {
     @IsNotEmpty()
     @Length(3, 3)
     countryCode: string;
+
+    @IsMongoId()
+    @IsNotEmpty()
+    userId: string;
 }
